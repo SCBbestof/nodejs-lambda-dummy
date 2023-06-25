@@ -23,7 +23,7 @@ node {
                     ls -la
                     export AWS_ACCESS_KEY_ID=$ACCESS_KEY
                     export AWS_SECRET_ACCESS_KEY=$SECRET_KEY
-                    aws lambda update-function-code --function-name $FUNCTION_NAME --zip-file fileb://example.zip
+                    aws lambda update-function-code --region eu-central-1 --function-name $FUNCTION_NAME --zip-file fileb://example.zip
                 '''
             }
         }
