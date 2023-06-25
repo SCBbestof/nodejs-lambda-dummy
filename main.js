@@ -1,6 +1,6 @@
 'use strict';
 
-export function handler (event, context, callback) {
+exports.handler = function (event, context, callback) {
     var response = {
         statusCode: 200,
         headers: {
@@ -9,4 +9,4 @@ export function handler (event, context, callback) {
         body: "Hello world!",
     };
     callback(null, response);
-}
+};
