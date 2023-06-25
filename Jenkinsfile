@@ -1,6 +1,21 @@
 node {
     stage('Checkout') {
-        checkout scm
+        input message: 'Select Branch/Tag', 
+            parameters: [gitParameter(branch: '',
+                            branchFilter: 'origin/(.*)',
+                            defaultValue: 'main',
+                            name: 'REPO_BRANCH',
+                            remoteURL: REPO_URL, 
+                            quickFilterEnabled: false,
+                            selectedValue: 'NONE',
+                            sortMode: 'DESCENDING_SMART',
+                            tagFilter: '*',
+                            type: 'PT_BRANCH_TAG')]
+        checkout scm: [
+            $class: 'GitSCM', 
+            userRemoteConfigs: [[url: REPO_URL]],
+            branches: [[name: "${params.BRANCH}"]]
+        ]
     }
     stage('Build') {
         docker.image('node:16-alpine').inside {
@@ -19,7 +34,7 @@ node {
                     ls -la
                     export AWS_ACCESS_KEY_ID=$ACCESS_KEY
                     export AWS_SECRET_ACCESS_KEY=$SECRET_KEY
-                    aws lambda list-functions --region eu-central-1
+                    aws lambda update-function-code --function-name $FUNCTION_NAME --zip-file fileb://example.zip
                 '''
             }
         }
