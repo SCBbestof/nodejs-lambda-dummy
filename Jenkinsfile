@@ -1,16 +1,5 @@
 node {
     stage('Checkout') {
-        input message: 'Select Branch/Tag', 
-            parameters: [gitParameter(branch: '',
-                            branchFilter: 'origin/(.*)',
-                            defaultValue: 'main',
-                            name: 'REPO_BRANCH',
-                            remoteURL: REPO_URL, 
-                            quickFilterEnabled: false,
-                            selectedValue: 'NONE',
-                            sortMode: 'DESCENDING_SMART',
-                            tagFilter: '*',
-                            type: 'PT_BRANCH_TAG')]
         checkout scm: [
             $class: 'GitSCM', 
             userRemoteConfigs: [[url: REPO_URL]],
